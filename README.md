@@ -5,7 +5,9 @@ Reposistory này được tạo ra với mục đích ghi lại quá trình tự
 * Kiểm thử WIFI (PMKID, handshake, evil twin...)
 * Common Web Application Attacks (SQL injection, XSS, online brute force, burp suite)
 * AD Attack (Dựng lab, information gathering, Vuln scanning, Metasploit framework)
-* Tạo Wordlist (online brute force, offline brute force, handshake crack)
+* wordlist attack (online brute force, offline brute force, handshake crack, CeWL)
+* MITM (Arp spoofing, dns spoofing,...)
+* Làm quen với Wireshark 
 ## Lưu Ý
 Đây là Reposistory phục vụ cho việc học tập, được thực hành trên Lab cá nhân, tuyệt đối không thực hiện khi chưa có sự cho phép hoặc với mục đích xấu
 ### With great power comes great responsibility.
