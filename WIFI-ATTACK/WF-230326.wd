@@ -1,0 +1,90 @@
+# Khái Quát
+## Wi-Fi deauthentication attack
+Là một dạng của tấn công từ chối dịch vụ (DoS) nhằm ngắt kết nối giữa client và access point
+### Nguyên lý tấn công
+Trên các chuẩn [IEEE 802.11](https://en.wikipedia.org/wiki/IEEE_802.11) thường có sẵn các **Deauthentication frame** được dùng để AP thông báo client bị ngắt kết nối, đây là một cơ chế hợp pháp trong protocol
+Vấn đề Frame này **không được mã hóa** và **không cần xác thực** vì vậy attacker có thể gửi deauth frame bất cứ lúc nào cho dù không ở cùng mạng
+### Mục đích
+Deauth attack có thể sử dụng cho mục đích `Dos`, `WPA handshake capture`, `Evil Twin attack`,...
+# MDK4
+Ở chủ đề này chúng ta sẽ thực hiện với [mdk4](https://github.com/aircrack-ng/mdk4) để trình bày quá trình Deauth attack
+## Yêu cầu
+Để thực hiện gửi các gói Frame đòi hỏi card WIFI của các bạn phải hỗ trợ **monitor mode** và **packet injection**
+Chúng ta có thể kiểm tra bằng cách dùng lệnh 
+`iw phy` hoặc `iw phy | grep monitor`
+```
+$iw phy
+Wiphy phy0
+wiphy index: 0
+max # scan SSIDs: 20
+max scan IEs length: 356 bytes
+max # sched scan SSIDs: 20
+max # match sets: 8
+Retry short limit: 7
+Retry long limit: 4
+Coverage class: 0 (up to 0m)
+Device supports RSN-IBSS.
+Device supports AP-side u-APSD.
+Device supports T-DLS.
+Supported interface modes:
+* IBSS
+* managed
+* AP
+* AP/VLAN
+* monitor
+* P2P-client
+* P2P-GO
+* P2P-device
+...
+```
+có thể thấy Card mình đang dùng có hỗ trợ monitor mode
+## Monitor mode
+Ta sử dụng lệnh `airmon-ng check kill` để tắt các tiến trình gây cản trở trong quá trình injection, sau đó ta sử dụng `iwconfig` để liệt kê các **interface**, **ESSID** mà interface đó đang kết nối
+```
+$iwconfig
+lo        no wireless extensions.
+
+enp7s0    no wireless extensions.
+
+wlp0s20f3  IEEE 802.11  ESSID:""
+Mode:Managed  Frequency:5.52 GHz  Access Point: 68:9E:29:53:F9:D7
+Bit Rate=288.2 Mb/s   Tx-Power=22 dBm
+Retry short limit:7   RTS thr:off   Fragment thr:off
+Power Management:on
+Link Quality=51/70  Signal level=-59 dBm
+Rx invalid nwid:0  Rx invalid crypt:0  Rx invalid frag:0
+Tx excessive retries:0  Invalid misc:10   Missed beacon:0
+
+wlxfc221c50084c  unassociated  ESSID:""  Nickname:"<WIFI@REALTEK>"
+Mode:Managed  Frequency=2.412 GHz  Access Point: Not-Associated
+Sensitivity:0/0
+Retry:off   RTS thr:off   Fragment thr:off
+Power Management:off
+Link Quality:0  Signal level:0  Noise level:0
+Rx invalid nwid:0  Rx invalid crypt:0  Rx invalid frag:0
+Tx excessive retries:0  Invalid misc:0   Missed beacon:0
+```
+Ở đây ta cần quan tâm tới tên của interface, tên interface của mình sẽ là `wlxfc221c50084c` và đang ở chế độ `Managed` ta cần chuyển sang chế độ `Monitor` bằng cách sử dụng lệnh `airmon-ng start wlxfc221c50084c`
+```
+$airmon-ng start wlxfc221c50084c
+
+PHY     Interface       Driver          Chipset
+
+phy0    wlp0s20f3       iwlwifi         Intel Corporation Alder Lake-S PCH CNVi WiFi (rev 11)
+phy1    wlxfc221c50084c 88XXau          Realtek Semiconductor Corp. 802.11a/b/g/n/ac 2T2R DB WLAN Adapter
+(monitor mode enabled)
+```
+Như vậy adapter của mình đã chuyển sang chế độ `Monitor` bây giờ ta thực hiện quét mạng để tìm kiếm mục tiêu cần tấn công, sử dụng cấu trúc lệnh
+`airodump-ng <options> <interface>[,<interface>,...]`
+với `options` ta có thể sử dụng `--band <abg>` hoặc `--essid`, `-C`
+![Screenshot_20260323_123651-1.png](jb-image:img_1774244740035_624dba6a4f26d8)
+Ở đây ta cần quan tâm đó chính là `BSSID` và `CH`, mình thực hiện quét trên band a và phát hiện có một `ESSID` có tên là `hidden Network`
+Sau đó ta thực hiện Deauth bằng cấu trúc lệnh 
+`mdk4 <interface> <attack_mode> [attack_options]`
+![Screenshot_20260323_124356.png](jb-image:img_1774244949322_68fc4498608018)
+Khi đó `MDK4` sẽ thực hiện quá trình gửi `Deauth Frame` với mục tiêu là các kênh `149` và như vậy chúng ta đã thực hiện thành công `deauthentication attack` với `MDK4`
+## Cách phòng tránh
+`deauthentication attack` chủ yếu tập trung vào mục đích tiếp theo cho một chuỗi tấn công, khi đó ta cần phòng tránh đối với việc sử dụng `PSK` là sử dụng chuỗi mật khẩu dài hơn 8 ký tự và phải chứa các ký tự đặc biệt hoặc đi cùng với các chữ cái, không đặt mật khẩu đơn giản như `12345678`, `88888888`,... còn về deauth ta cần sử dụng chuẩn [IEEE 802.](https://en.wikipedia.org/wiki/IEEE_802.11w-2009) để phòng tránh.
+## HAPPY CRACKING!
+
+
