@@ -7,6 +7,7 @@ Reposistory này được tạo ra với mục đích ghi lại quá trình tự
 * AD Attack (Dựng lab, information gathering, Vuln scanning, Metasploit framework)
 * wordlist attack (online brute force, offline brute force, handshake crack, CeWL)
 * MITM (Arp spoofing, dns spoofing,...)
+* Exploit với metasploit framework
 * Làm quen với Wireshark 
 ## Lưu Ý
 Đây là Reposistory phục vụ cho việc học tập, được thực hành trên Lab cá nhân, tuyệt đối không thực hiện khi chưa có sự cho phép hoặc với mục đích xấu
