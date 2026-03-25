@@ -1,18 +1,18 @@
 import socket
 
-target = input("ip:")
-x = int(input("nhap day x:"))
+target = input("ip:") ## Nhập từ bàn phím user với biến là target
+x = int(input("nhap day x:")) ## Nhập dãy port từ 1 - x+1 cần quét
 dem = 0
 dem_dong = 0
 
 def port_scanner(target, x, dem, dem_dong):
     for i in range (1, x+1):
-        s = socket.socket()
-        s.settimeout(1)
+        s = socket.socket() ## Khởi tạo biến socket
+        s.settimeout(1) 
         
         result = s.connect_ex((target, i))
 
-        if result == 0:
+        if result == 0: ## Kiểm tra các cổng mở
             print(f"[+] Port {i} OPEN")
             dem=dem+1
         else:
@@ -24,7 +24,3 @@ def port_scanner(target, x, dem, dem_dong):
           
 
 port_scanner(target, x, dem, dem_dong)
-
-
-    
-    
