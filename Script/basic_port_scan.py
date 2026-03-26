@@ -1,26 +1,25 @@
 import socket
+import threading
 
-target = input("ip:") ## Nhập từ bàn phím user với biến là target
-x = int(input("nhap day x:")) ## Nhập dãy port từ 1 - x+1 cần quét
-dem = 0
-dem_dong = 0
+target = input("IP:")
+Port = int(input("Port:"))
+Port_Open = 0
+Port_Closed = 0
 
-def port_scanner(target, x, dem, dem_dong):
-    for i in range (1, x+1):
-        s = socket.socket() ## Khởi tạo biến socket
-        s.settimeout(1) 
-        
-        result = s.connect_ex((target, i))
+def port_scanner(target, Port, Port_Open, Port_Closed):
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.settimeout(1)
+    result = s.connect_ex((target, Port))
 
-        if result == 0: ## Kiểm tra các cổng mở
-            print(f"[+] Port {i} OPEN")
-            dem=dem+1
-        else:
-            dem_dong=dem_dong + 1
-            
-        s.close()
-    print(f"{dem} PORT OPEN")
-    print(f"{dem_dong} PORT CLOSED")
-          
+    if result == 0:
+        print(f"[+] {Port} Open")
+        Port_Open = Port_Open + 1
+    else:
+        Port_Closed = Port_Closed + 1
+    s.close()
 
-port_scanner(target, x, dem, dem_dong)
+for port in range(1, Port+1):
+    t = threading.Thread(target = port_scanner, args=(target, port, Port_Open, Port_Closed))
+    t.start()
+
+
