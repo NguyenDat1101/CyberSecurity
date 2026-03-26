@@ -11,10 +11,10 @@ def Port_scanner(host, port): ##khởi tạo socket kết nối tới port
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.settimeout(1)
-        result = s.connect_ex((host, Port))
+        result = s.connect_ex((host, port))
 
         if result == 0:
-           print(f" {Port} Port Open")
+           print(f" Port {port} Open")
            return True
     except:
         print("Timedout")
@@ -41,10 +41,10 @@ def PASSWD_CRACK(host, port, username, passwords): ## thử các tổ hợp user
                 return 
 
 def Port_Confirm(host, port): ## Xac nhan host mo port 21 
-    if Port_scanner(host, Port):
-        if Port == 21:
+    if Port_scanner(host, port):
+        if port == 21:
             print("[+] FTP FOUND, START BRUTE FORCE")
-            PASSWD_CRACK(host, username, passwords)
+            PASSWD_CRACK(host, port, username, passwords)
         else:
             print(f" {host} Khong mo port 21")
 
