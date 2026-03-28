@@ -49,6 +49,7 @@ Lệnh trên mình sử dụng kiểu quét **TCP Connect** phương pháp quét
 Với **TCP Connect Scan** có thể thấy rõ sự khác biệt với **SYN Scan**, **TCP Connect Scan** hoàn thành đủ quy trình bắt tay ba bước trong quá trình quét
 #### OS Fingerprinting
 Nmap sử dụng kỹ thuật **“OS fingerprinting”** để xác định hệ điều hành của mục tiêu. Nmap sẽ gửi các gói tin đặc biệt và dựa trên phản hồi để đoán hệ điều hành và các đặc điểm khác của hệ thống, bao gồm cả thời gian hoạt động (uptime) của máy chủ.
+
 `nmap -O 127.0.0.1`
 ``` bash
 $ nmap -O 127.0.0.1
