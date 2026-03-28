@@ -35,14 +35,14 @@ Nmap done: 1 IP address (1 host up) scanned in 0.40 seconds
 ```
 Kết quả nmap quét được `IP:127.0.0.1` có mở port `80` dịch vụ là `HTTP`
 
-![Screenshot_20260328_180110.png](jb-image:img_1774695802939_92535a265f189)
+<img width="1920" height="1012" alt="Screenshot_20260328_180110" src="https://github.com/user-attachments/assets/5d49d6df-9a20-4249-841d-4e9967a2d6a0" />
 
 Khi xem bằng **Wireshark** ta có thể thấy quá trình nmap gửi đi **SYN** tới port chỉ định, nếu port mở host sẽ gửi lại một **SYN/ACK** nếu không nmap sẽ gửi **RST** kết thúc quá trình bắt tay.
 Ngoài **SYN SCAN** chúng ta còn có các kiểu quét khác như **TCP Connect Scan**, **ACK Scan**, **Window Scan**, **UDP Scan**... Mỗi kiểu quét có ưu nhược điểm của nó. Trường hợp **SYN Scan** trả về một **False positive**, chúng ta có thể sử dụng kiểu quét khác nhiều lần để kiểm chứng kết quả
 `nmap -sT -T2 127.0.0.1`
 Lệnh trên mình sử dụng kiểu quét **TCP Connect** phương pháp quét này sẽ thiết lập kết nối TCP hoàn chỉnh với mục tiêu, có nghĩa là nmap sẽ thực hiện đủ quy trình bắt tay ba bước, kiểu quét này chậm hơn **SYN Scan** và có thể bi hê thống **IDS/IPS** nhận diện, nhưng đổi lại kết quả sẽ chính xác hơn **SYN Scan** 
 
-![Screenshot_20260328_180906.png](jb-image:img_1774696290932_5f3c9b98f72b88)
+<img width="1920" height="1012" alt="Screenshot_20260328_180906" src="https://github.com/user-attachments/assets/581efe33-709b-40c7-b133-39655d427109" />
 
 Với **TCP Connect Scan** có thể thấy rõ sự khác biệt với **SYN Scan**, **TCP Connect Scan** hoàn thành đủ quy trình bắt tay ba bước trong quá trình quét
 #### OS Fingerprinting
