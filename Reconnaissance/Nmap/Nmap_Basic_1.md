@@ -6,6 +6,7 @@ Nmap được xây dựng dựa trên:
 * TCP/IP stack
 * RFC protocol
 * Response target
+
 Nmap lợi dụng quá trình **TCP 3-way handshake** để scan
 Cấu trúc của một đơn vị dữ liệu trong giao thức **TCP** bao gồm 2 phần chính:
 * Header
