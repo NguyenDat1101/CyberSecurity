@@ -45,7 +45,7 @@ Ngoài **SYN SCAN** chúng ta còn có các kiểu quét khác như **TCP Connec
 
 `nmap -sT -T2 127.0.0.1`
 
-Lệnh trên mình sử dụng kiểu quét **TCP Connect** phương pháp quét này sẽ thiết lập kết nối TCP hoàn chỉnh với mục tiêu, có nghĩa là nmap sẽ thực hiện đủ quy trình bắt tay ba bước, kiểu quét này chậm hơn **SYN Scan** và có thể bi hê thống **IDS/IPS** nhận diện, nhưng đổi lại kết quả sẽ chính xác hơn **SYN Scan** 
+Lệnh trên mình sử dụng kiểu quét **TCP Connect** phương pháp quét này sẽ thiết lập kết nối TCP hoàn chỉnh với mục tiêu, có nghĩa là nmap sẽ thực hiện đủ quy trình bắt tay ba bước, kiểu quét này chậm hơn **SYN Scan** và có thể bị hệ thống **IDS/IPS** nhận diện, nhưng đổi lại kết quả sẽ chính xác hơn **SYN Scan** 
 
 <img width="1920" height="1012" alt="Screenshot_20260328_180906" src="https://github.com/user-attachments/assets/581efe33-709b-40c7-b133-39655d427109" />
 
